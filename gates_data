@@ -1,0 +1,46 @@
+{
+    "98899889":
+    [
+	    {"token":"FLMEXw4"},
+	    {"gates":
+		    [
+		    {"name":"Olimpo"          , "id":"gudf6hy5FT", "phone":"99999999", "latitude":-33.387644, "longitude":-70.617558, "far_gate":"LOCKED", "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Puerta_YX"       , "id":"gu566hy5FT", "phone":"99999999", "latitude":-33.388275, "longitude":-70.617780, "far_gate":"ALERT" , "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Moneda"          , "id":"gu876hy5FT", "phone":"99999999", "latitude":-33.387796, "longitude":-70.616029, "far_gate":"AERT"  , "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Pentagono"       , "id":"gUDf6hy5FT", "phone":"99999999", "latitude":-33.388123, "longitude":-70.615197, "far_gate":"LOCKED", "distance":250.0, "geofence":"false", "radius":0.0},
+		    {"name":"Antartida"       , "id":"gUDf6yh5FT", "phone":"99999999", "latitude":-33.421727, "longitude":-70.574167, "far_gate":"ALERT" , "distance":5000.0, "geofence":"false", "radius":0.0},
+		    {"name":"El_Dorado"       , "id":"gUdF6yh5FT", "phone":"99999999", "latitude":-32.993535, "longitude":-71.177193, "far_gate":"LOCKED", "distance":8000.0, "geofence":"false", "radius":0.0}
+		    ]
+	    },
+	    {"os":"android"}
+    ],
+
+    "67042889":
+    [
+	    {"token":"M3o6t0oX700"},
+	    {"gates":
+		    [
+		    {"name":"Puerta_YX"       , "id":"gu566hy5FT", "phone":"94362329", "latitude":-33.388275, "longitude":-70.617780, "far_gate":"ALERT"  , "distance":8000.0},
+		    {"name":"Las_Garzas_Norte", "id":"gUdF7yh5FT", "phone":"89224185", "latitude":-33.267479, "longitude":-70.713332, "far_gate":"LOCKED"  , "distance":8000.0},
+		    {"name":"Las_Garzas_Sur"  , "id":"gUFd6yh5FT", "phone":"81490529", "latitude":-33.269195, "longitude":-70.713915, "far_gate":"LOCKED"  , "distance":8000.0},
+		    {"name":"Casa"            , "id":"gUdF6yh5fT", "phone":"88043877", "latitude":-33.266787, "longitude":-70.713174, "far_gate":"LOCKED" , "distance":8000.0}
+		    ]
+	    },
+	    {"os":"iOS"}
+    ],
+
+    "90872550":
+    [
+	    {"token":"t4L9kt3"},
+	    {"gates":
+		    [
+		    {"name":"Puerta_YX"         , "id":"gu566hy5FT", "phone":"99999999", "latitude":-33.388275, "longitude":-70.617780, "far_gate":"ALERT"  , "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Las_Garzas_Norte"  , "id":"gUdF7yh5FT", "phone":"99999999", "latitude":-33.267479, "longitude":-70.713332, "far_gate":"LOCKED"  , "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Las_Garzas_Sur"    , "id":"gUFd6yh5FT", "phone":"99999999", "latitude":-33.269195, "longitude":-70.713915, "far_gate":"LOCKED"  , "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Casa"              , "id":"gUdF6yh5fT", "phone":"99999999", "latitude":-33.266787, "longitude":-70.713174, "far_gate":"LOCKED" , "distance":8000.0, "geofence":"false", "radius":0.0},
+		    {"name":"Puerta_Entrada_YX" , "id":"lo8UjspHy7", "phone":"94362329", "latitude":-32.993535, "longitude":-71.177193, "far_gate":"ALERT"  , "distance":8000.0, "geofence":"true" , "radius":1000.0}
+		    ]
+	    },
+	    {"os":"android"}
+    ]
+}

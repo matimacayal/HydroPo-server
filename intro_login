@@ -1,0 +1,88 @@
+#!/usr/bin/python
+
+#200.68.1.91:8088/cgi-bin/intro_login?
+#http://200.68.1.91:8088/cgi-bin/intro_login?command=send_code&phone=0056990872550&country=chile
+#http://200.68.1.91:8088/cgi-bin/intro_login?command=verify_code&code=70239&phone=0056990872550
+#http://admin:yxdemo@192.168.0.103/cgi-bin/exec?cmd=api_queue_sms&username=lyric_api&password=lyric_api&content=hola1abc1def57616&destination=90872550&api_version=0.08
+
+import cgi
+import cgitb
+import datetime
+import os
+import sys
+import random
+import string
+import urllib
+import json
+
+form        = cgi.FieldStorage()
+command     = form.getvalue('command')
+phonenumber = form.getvalue('phone')
+country     = form.getvalue('country')
+usercode    = form.getvalue('code')
+
+
+print "Content-type:text/html\r\n\r\n"
+
+if (command == 'send_code'):
+	CODE = str(random.randint(10000, 99999))
+	date = str(datetime.datetime.now())
+	try:
+		a = open("/home/mmacaya/public_html/cgi-bin/.logindata/" + phonenumber + ".incomplete", "w")
+		a.write(CODE + "\n")
+		a.write("CODE\n")
+		a.write("DATE    " + date + "\n")
+		a.write("COUNTRY " + country + "\n")
+		a.write("\n")
+		a.write("PHONE   " + phonenumber + "\n")
+		url = 'http://admin:yxdemo@192.168.0.103/cgi-bin/exec'
+		arguments = urllib.urlencode({'cmd': 'api_queue_sms', 'username': 'lyric_api', 'password': 'lyric_api', 'content': ('code+' + CODE), 'destination': phonenumber, 'api_version': '0.08'})
+		#res = urllib.urlopen(url + '?' + arguments).read()
+		#obj = json.loads(res)
+		#a.write("SMS     " + json.dumps(obj))
+		a.write("")
+		a.close()
+		status = "Success"
+		description = "code_sended"
+	except:
+		#os.remove("/home/matias/Practica/IntroRepo/cgi-bin/logindata/" + phonenumber)
+		status = "Error"
+		description = "wrong request, might be lack of arguments"
+elif (command == 'verify_code'):
+	try:
+		b = open("/home/mmacaya/public_html/cgi-bin/.logindata/" + phonenumber + ".incomplete", "r")
+		code = b.readline(5) # importante el size=5 ya que sino toma el newline
+		b.close()
+	except:
+		code = 00000
+	if (usercode == code):
+		token = ""
+		alfabeto = string.letters
+		numbers = "1234567890"
+		token_elements = alfabeto + numbers
+		for i in range(0,7):
+			token += random.choice(token_elements)
+		c = open("/home/mmacaya/public_html/cgi-bin/.logindata/" + phonenumber + ".incomplete", "r")
+		d = open("/home/mmacaya/public_html/cgi-bin/.logindata/" + phonenumber, "w")
+		while True:
+			linea = c.readline()
+			if (linea == ""):
+				c.close()
+				cmm = "rm /home/mmacaya/public_html/cgi-bin/.logindata/{0}.incomplete".format(phonenumber)
+				os.system(cmm)
+				break;
+			d.write(linea)
+		d.write("TOKEN   " + str(token) + "\n")
+		d.write("")
+		d.close()
+		status = "Success"
+		#description = "code_verified"
+		description = token
+	else:
+		# en la realidad pondriamos un contador de intentos para un numero, para bloquear pasado un umbral
+		status = "Error"
+		description = "code don't match"
+else:
+	status = "Error"
+	description = "invalid_command"
+print {"status":status, "description":description}

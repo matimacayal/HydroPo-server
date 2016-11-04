@@ -1,0 +1,101 @@
+#!/usr/bin/python
+
+import cgi
+import cgitb
+import json
+from pprint import pprint
+import os
+
+json_data=open('gates_data')
+data = json.load(json_data)
+json_data.close()
+
+form          = cgi.FieldStorage()
+command       = form.getvalue('command')
+phoneNumber   = form.getvalue('id')
+token         = form.getvalue('token')
+gate_req_name = form.getvalue('gate_name')
+gate_req_id   = form.getvalue('gate_id')
+
+print "Content-type:text/html\r\n\r\n"
+
+# Validate User
+state = 'none'
+validation_ok = False
+try:
+    data[phoneNumber]
+    state = 'VALID_PHONE_NUMBER'
+    if (token == data[phoneNumber][0]['token']):
+        state = 'CORRECT_TOKEN'
+        validation_ok = True
+    else: 
+        state = 'WRONG_TOKEN'
+except: 
+    state = 'INVALID_PHONE_NUMBER'
+
+# Function
+def indexInJsonArray(finding):
+    index = 0.2
+    for i in range(len(data[phoneNumber][1]['gates'])):
+        if (finding == data[phoneNumber][1]['gates'][i]['name']):
+            index = i
+    return index
+
+def openGate():
+	try:#si existe la puerta, tomamos su id real
+		gate_id = data[phoneNumber][1]['gates'][indexInJsonArray(gate_req_name)]['id']
+		gate_phone = data[phoneNumber][1]['gates'][indexInJsonArray(gate_req_name)]['phone']
+	except:#si no exsiste -> error
+		return ["ERROR", "Error - INVALID_GATE"]
+	if (gate_req_id != gate_id): #si el nombre no calza con el id -> error
+		return ["ERROR", "Error - INVALID_ID_NAME_GATE_ARGUMENTS"]
+	if (gate_phone != "99999999"): #si no es un numero de ejemplo voy a llamarlo
+		try:
+			cmd = "ssh mmacaya@192.168.10.2 -i /home/mmacaya/.ssh/intro_call_key -o StrictHostKeyChecking=no -y 'sudo asterisk -rx \"originate SIP/lyric_ext/{0} extension\"' &".format(gate_phone)
+			os.system(cmd)
+			return ["Success", "opening_" + gate_req_name]
+		except:
+			return ["ERROR", "Error - calling gate crashed"]
+	else:
+		return ["Success", "opening_" + gate_req_name + ".trial"]
+
+# We search the right command
+if (validation_ok):
+	# Return validation
+	if (command == 'validate_user'):
+		status = "Success"
+		description = "user_validated"
+
+	# Return allowed gates
+	elif (command == 'return_allowed_gates'):
+		status = "Success"
+		description = "returning_gates"
+		gates = (data[phoneNumber][1]['gates'])
+
+	# Open Gate
+	elif (command == 'open_gate'):
+		[status, description] = openGate()
+
+else:
+	status = "Error"
+	description = "not_validated"
+
+if (command == 'return_allowed_gates' and validation_ok):
+	response1 = {"status":status, "description": description, "gates": gates}
+else:
+	response1 = {"status":status, "description": description}
+
+response = json.dumps(response1)
+print response
+
+#print json.dumps(data)
+
+
+
+
+
+
+
+
+
+
